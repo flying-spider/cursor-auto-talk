@@ -22,16 +22,25 @@ DOM 观察器和 hooks 可以同时开，扩展侧有去重逻辑，同一段内
 
 ## 安装扩展
 
-任选其一：
+### 方式 A：安装打包好的 VSIX（推荐）
 
-### 方式 A：安装 VSIX（推荐）
-1. `npm install` 然后 `npm run package`，生成 `cursor-auto-tts-0.1.0.vsix`
-2. Cursor 中 `Ctrl+Shift+P` → `Extensions: Install from VSIX...` → 选择该文件
-3. `Ctrl+Shift+P` → `Developer: Reload Window`
+仓库里已经带了 `cursor-auto-tts-0.1.0.vsix`，下载后直接安装，不需要 Node.js 环境：
+
+1. 下载 <https://github.com/flying-spider/cursor-auto-talk/raw/main/cursor-auto-tts/cursor-auto-tts-0.1.0.vsix>
+2. 打开命令面板（Windows `Ctrl+Shift+P`／macOS `⇧⌘P`）→ `Extensions: Install from VSIX...` → 选择该文件
+3. 再次打开命令面板 → `Developer: Reload Window` 让扩展生效
+
+想自己重新打包：在本目录执行 `npm install && npm run package`，生成的 `cursor-auto-tts-0.1.0.vsix` 就在本目录。
 
 ### 方式 B：从源码加载
+
 1. 本目录执行 `npm install`
-2. Cursor 中 `Ctrl+Shift+P` → `Developer: Install Extension from Location...` → 选择本目录
+2. 命令面板（Windows `Ctrl+Shift+P`／macOS `⇧⌘P`）→ `Developer: Install Extension from Location...` → 选择本目录
+
+装好后状态栏右侧会多出一个「自动朗读」按钮，点它可以开关。快捷键：
+
+- Windows：`Alt+R` 朗读选中或剪贴板文本，`Ctrl+Alt+S` 停止
+- macOS：`⌥R` 朗读，`⌃⌥S` 停止
 
 ## 配置 hooks（零 token 自动朗读）
 
