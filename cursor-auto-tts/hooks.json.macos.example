@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterAgentResponse": [
+      {
+        "command": "/bin/sh \"/Users/你的用户名/Desktop/自动朗读/cursor-auto-tts/hooks/run-hook.sh\"",
+        "timeout": 5
+      }
+    ]
+  }
+}

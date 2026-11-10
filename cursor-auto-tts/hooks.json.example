@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterAgentResponse": [
+      {
+        "command": "node \"C:\\Users\\flyingpig\\Desktop\\自动朗读\\cursor-auto-tts\\hooks\\after-agent-response.js\"",
+        "timeout": 5
+      }
+    ]
+  }
+}

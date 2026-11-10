@@ -1,0 +1,106 @@
+{
+  "name": "cursor-auto-tts",
+  "displayName": "Cursor Auto TTS 朗读",
+  "description": "自动/手动朗读 Cursor AI 回复：edge-tts 自然中文音色 + 系统语音回退，不依赖 Cursor 官方后端。",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "cursorAutoTts.readClipboard",
+        "title": "朗读选中/剪贴板文本"
+      },
+      {
+        "command": "cursorAutoTts.stop",
+        "title": "停止朗读"
+      },
+      {
+        "command": "cursorAutoTts.toggle",
+        "title": "开关自动朗读"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "cursorAutoTts.readClipboard",
+        "key": "alt+r"
+      },
+      {
+        "command": "cursorAutoTts.stop",
+        "key": "ctrl+alt+s"
+      }
+    ],
+    "configuration": {
+      "title": "Cursor Auto TTS",
+      "properties": {
+        "cursorAutoTts.voice": {
+          "type": "string",
+          "default": "zh-CN-XiaoxiaoNeural",
+          "description": "edge-tts 音色。可用 py/npx 的 edge-tts --list-voices 查看全部音色。"
+        },
+        "cursorAutoTts.rate": {
+          "type": "string",
+          "default": "+0%",
+          "description": "语速，如 +10% / -10%。"
+        },
+        "cursorAutoTts.skipCodeBlocks": {
+          "type": "boolean",
+          "default": true,
+          "description": "朗读时跳过代码块。"
+        },
+        "cursorAutoTts.codeBlockHint": {
+          "type": "string",
+          "default": "，代码块省略，",
+          "description": "代码块替换成的朗读文本。设为空字符串则完全跳过、不出声（最接近「只读原文」）。"
+        },
+        "cursorAutoTts.segmentChars": {
+          "type": "number",
+          "default": 60,
+          "description": "分段合成的最大字数。文本会按句子切成小段，第一段合成完就开始播，不必等整条回复。"
+        },
+        "cursorAutoTts.synthesisConcurrency": {
+          "type": "number",
+          "default": 3,
+          "description": "并行合成的段数。默认 3：多段回复里后面的句子在念前一段时就已经合成好，段与段之间不必等合成。调低更省带宽，调高首段之后更连贯（1~8）。"
+        },
+        "cursorAutoTts.fallbackToSystem": {
+          "type": "boolean",
+          "default": true,
+          "description": "edge-tts 连续两次失败时是否回退系统语音（音质较差）。关掉则失败时静默跳过。"
+        },
+        "cursorAutoTts.autoRead": {
+          "type": "boolean",
+          "default": true,
+          "description": "自动朗读总开关。由 hooks 或注入脚本投递内容时，只有开启才会朗读。"
+        },
+        "cursorAutoTts.minChunkChars": {
+          "type": "number",
+          "default": 12,
+          "description": "流式分片的最小朗读长度（字符）。太短的分片会丢弃，避免念出碎片。"
+        },
+        "cursorAutoTts.dedupe": {
+          "type": "boolean",
+          "default": true,
+          "description": "去重：hooks 与 DOM 观察器同时投递相同内容时，只念还没念过的部分。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "package": "npx @vscode/vsce package --allow-missing-repository",
+    "test": "node test/queue.test.js && node test/observer.test.js && node test/pipeline.test.js && node test/player.test.js"
+  },
+  "dependencies": {
+    "msedge-tts": "^2.1.1"
+  }
+}
